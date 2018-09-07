@@ -13,7 +13,7 @@ from Adafruit_LED_Backpack import SevenSegment
 global segment
 segment = SevenSegment.SevenSegment(address=0x70)
 segment.begin()
-segment.set_brightness(3)
+segment.set_brightness(0)
 
 eventq = Queue.Queue()
 
@@ -26,7 +26,7 @@ Vensre = Button(5)
 Rele = LED(21)
 Tute = LED(26)
 
-set_time = 50
+set_time = 15
 hold_time = 2
 
 global timeOfStart
@@ -201,7 +201,7 @@ Update_disp(set_time)
 while True:
     value = eventq.get()
     if not Rele.is_lit:
-        
+
         set_time = set_time - value
         if set_time < 0:
             set_time = 0
