@@ -232,7 +232,7 @@ while True:
         brightness = brightness - (value / 1000)
         if brightness < 0:
             brightness = 0
-        elif brightness < 15:
+        elif brightness > 15:
             brightness = 15
         Brigh(brightness)
     else:
