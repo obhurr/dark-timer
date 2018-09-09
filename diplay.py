@@ -1,6 +1,8 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 from Adafruit_LED_Backpack import SevenSegment
+from time import time, sleep, strftime, gmtime
+
 global segment
 
 segment = SevenSegment.SevenSegment(address=0x70)
@@ -22,7 +24,10 @@ def Slot_disp():
         segment.set_colon(False)
         segment.write_display()
 
-        if x = 9:
+        if x == 9:
             x = 0
         else:
             x = x + 1
+        sleep(0.05)
+
+Slot_disp()
