@@ -39,7 +39,7 @@ def PwrOff():
     diff = 0
     Single = True
     start_time = time()
-    while Vensre.is_active and (diff < hold_time) :
+    while Vensre.is_active and Single :
         if Enc_B.is_pressed or Enc_A.is_pressed:
             Single = False
         else:
