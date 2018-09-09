@@ -1,6 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 from __future__ import division
+from subprocess import call
 from gpiozero import *
 from time import time, sleep, strftime, gmtime
 from datetime import datetime, timedelta
@@ -33,6 +34,25 @@ hold_time = 2
 
 global timeOfStart
 timeOfStart = datetime.now() # bare for å sette type
+
+def PwrOff():
+    diff = 0
+    Single = True
+    start_time = time()
+    while Vensre.is_active and (diff < hold_time) :
+        if Enc_B.is_pressed or Enc_A.is_pressed:
+            Single = False
+        else:
+            now_time=time()
+            diff=-start_time+now_time
+
+    if diff < 10 and Single:
+        Face_disp()
+        while True:
+            if Ned.is_pressed:
+                Update_disp(set_time)
+            elif Opp.is_pressed:
+                call("sudo nohup shutdown -h now", shell=True)
 
 
 def Enc_A_rising():
@@ -179,6 +199,20 @@ def Lines_disp():
     segment.set_digit(1, "-")       # Ones
     segment.set_digit(2, "-")   # Tens
     segment.set_digit(3, "-")    # Ones
+    segment.set_colon(False)
+
+    segment.write_display()
+
+def Face_disp():
+    ## Continually update the time on a 4 char, 7-segment display
+    global segment
+
+    segment.clear()
+
+    segment.set_digit(0, "F")     # Tens
+    segment.set_digit(1, "A")       # Ones
+    segment.set_digit(2, "C")   # Tens
+    segment.set_digit(3, "E")    # Ones
     segment.set_colon(False)
 
     segment.write_display()
