@@ -233,7 +233,7 @@ while True:
     brightness = brightness - value
     if brightness < 0:
         brightness = 0
-    elif: brightness < 15:
+    elif brightness < 15:
         brightness = 15
     Brigh(bright)
 
