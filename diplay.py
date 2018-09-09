@@ -16,7 +16,7 @@ def Slot_disp():
     ## Continually update the time on a 4 char, 7-segment display
     global segment
     x = 9
-    y = 0
+    y = 0.15
     while x >= 0:
         segment.clear()
         segment.set_digit(0, x)     # Tens
@@ -27,7 +27,7 @@ def Slot_disp():
         segment.write_display()
 
         x = x - 1
-        y = y + 0.05
+        y = y + 0.035
         sleep(y)
 
 Slot_disp()
