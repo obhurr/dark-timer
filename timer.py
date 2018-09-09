@@ -35,28 +35,28 @@ hold_time = 2
 global timeOfStart
 timeOfStart = datetime.now() # bare for å sette type
 
-def PwrOff():
-    diff = 0
-    Single = True
-    End = True
-    start_time = time()
-    while Vensre.is_active and (diff < 10) and Single:
-        if Enc_B.is_pressed or Enc_A.is_pressed:
-            Single = False
-        else:
-            now_time=time()
-            diff=-start_time+now_time
-            print(diff)
-
-    if diff < 10 and Single:
-        while End:
-            Face_disp()
-            if Ned.is_pressed:
-                Update_disp(set_time)
-                End = False
-            elif Opp.is_pressed:
-                call("sudo nohup shutdown -h now", shell=True)
-                End = False
+# def PwrOff():
+#     diff = 0
+#     Single = True
+#     End = True
+#     start_time = time()
+#     while Vensre.is_active and (diff < 10) and Single:
+#         if Enc_B.is_pressed or Enc_A.is_pressed:
+#             Single = False
+#         else:
+#             now_time=time()
+#             diff=-start_time+now_time
+#             print(diff)
+#
+#     if diff < 10 and Single:
+#         while End:
+#             Face_disp()
+#             if Ned.is_pressed:
+#                 Update_disp(set_time)
+#                 End = False
+#             elif Opp.is_pressed:
+#                 call("sudo nohup shutdown -h now", shell=True)
+#                 End = False
 
 
 def Enc_A_rising():
@@ -235,7 +235,7 @@ def Brigh(bright):
 Enc_A.when_pressed = Enc_A_rising      # Register the event handler for pin A
 Enc_B.when_pressed = Enc_B_rising      # Register the event handler for pin B
 Hoyre.when_pressed = utgang
-Vensre.when_pressed = PwrOff
+#Vensre.when_pressed = PwrOff
 #Opp.when_pressed = reset_time
 #Ned.when_pressed = to_sek_time
 
