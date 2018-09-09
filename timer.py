@@ -18,7 +18,6 @@ segment.set_brightness(brightness)
 
 
 eventq = Queue.Queue()
-brigq = Queue.Queue()
 
 Enc_A = Button(16) # Rotary encoder pin A
 Enc_B = Button(20) # Rotary encoder pin B
@@ -43,7 +42,7 @@ def Enc_A_rising():
         elif Opp.is_pressed:
             eventq.put(-10)
         elif Vensre.is_pressed:
-            brigq.put(-1)
+            eventq.put(-1000)
         else:
             eventq.put(-1)
 
@@ -54,7 +53,7 @@ def Enc_B_rising():
         elif Opp.is_pressed:
             eventq.put(10)
         elif Vensre.is_pressed:
-            brigq.put(1)
+            eventq.put(1000)
         else:
             eventq.put(1)
 
@@ -228,19 +227,19 @@ Update_disp(set_time)
 
 while True:
     value = eventq.get()
-    BRvalue = brigq.get()
+    if abs(value) >= 1000:
 
-    brightness = brightness - value
-    if brightness < 0:
-        brightness = 0
-    elif brightness < 15:
-        brightness = 15
-    Brigh(bright)
+        brightness = brightness - (value / 1000)
+        if brightness < 0:
+            brightness = 0
+        elif brightness < 15:
+            brightness = 15
+        Brigh(brightness)
+    else:
+        if not Rele.is_lit:
 
-    if not Rele.is_lit:
-
-        set_time = set_time - value
-        if set_time < 0:
-            set_time = 0
-        Update_disp(set_time)
-        print(set_time)
+            set_time = set_time - value
+            if set_time < 0:
+                set_time = 0
+            Update_disp(set_time)
+            print(set_time)
