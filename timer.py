@@ -13,9 +13,12 @@ from Adafruit_LED_Backpack import SevenSegment
 global segment
 segment = SevenSegment.SevenSegment(address=0x70)
 segment.begin()
-segment.set_brightness(0)
+brightness = 0
+segment.set_brightness(brightness)
+
 
 eventq = Queue.Queue()
+brigq = Queue.Queue()
 
 Enc_A = Button(16) # Rotary encoder pin A
 Enc_B = Button(20) # Rotary encoder pin B
@@ -37,21 +40,23 @@ def Enc_A_rising():
     if Enc_B.is_pressed:
         if Ned.is_pressed:
             eventq.put(-0.1)
+        elif Opp.is_pressed:
+            eventq.put(-10)
+        elif Vensre.is_pressed:
+            brigq.put(-1)
         else:
-            if Opp.is_pressed:
-                eventq.put(-10)
-            else:
-                eventq.put(-1)
+            eventq.put(-1)
 
 def Enc_B_rising():
     if Enc_A.is_pressed:
         if Ned.is_pressed:
             eventq.put(0.1)
+        elif Opp.is_pressed:
+            eventq.put(10)
+        elif Vensre.is_pressed:
+            brigq.put(1)
         else:
-            if Opp.is_pressed:
-                eventq.put(10)
-            else:
-                eventq.put(1)
+            eventq.put(1)
 
 def utgang():
     diff = 0
@@ -187,19 +192,51 @@ def Blink_Off():
     global segment
     segment.set_blink(0x00)
 
+def Slot_disp():
+    ## Continually update the time on a 4 char, 7-segment display
+    global segment
+    x = 9
+    y = 0.15
+    while x >= 0:
+        segment.clear()
+        segment.set_digit(0, x)     # Tens
+        segment.set_digit(1, x)       # Ones
+        segment.set_digit(2, x)   # Tens
+        segment.set_digit(3, x)    # Ones
+        segment.set_colon(False)
+        segment.write_display()
+
+        x = x - 1
+        y = y + 0.035
+        sleep(y)
+
+def Brigh(bright):
+    segment.set_brightness(bright)
+
 Enc_A.when_pressed = Enc_A_rising      # Register the event handler for pin A
 Enc_B.when_pressed = Enc_B_rising      # Register the event handler for pin B
 Hoyre.when_pressed = utgang
+
 #Opp.when_pressed = reset_time
 #Ned.when_pressed = to_sek_time
 
 
 print "Klar..."
+Slot_disp()
 Update_disp(set_time)
 
 
 while True:
     value = eventq.get()
+    BRvalue = brigq.get()
+
+    brightness = brightness - value
+    if brightness < 0:
+        brightness = 0
+    elif: brightness < 15:
+        brightness = 15
+    Brigh(bright)
+
     if not Rele.is_lit:
 
         set_time = set_time - value
