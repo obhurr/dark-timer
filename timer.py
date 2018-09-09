@@ -40,12 +40,13 @@ def PwrOff():
     Single = True
     End = True
     start_time = time()
-    while Vensre.is_active and (diff < 10) :
+    while Vensre.is_active and (diff < 10) and Single:
         if Enc_B.is_pressed or Enc_A.is_pressed:
             Single = False
         else:
             now_time=time()
             diff=-start_time+now_time
+            print(diff)
 
     if diff < 10 and Single:
         while End:
