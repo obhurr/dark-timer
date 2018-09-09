@@ -249,7 +249,7 @@ def Brigh(bright):
 Enc_A.when_pressed = Enc_A_rising      # Register the event handler for pin A
 Enc_B.when_pressed = Enc_B_rising      # Register the event handler for pin B
 Hoyre.when_pressed = utgang
-
+Vensre.when_pressed = PwrOff
 #Opp.when_pressed = reset_time
 #Ned.when_pressed = to_sek_time
 
