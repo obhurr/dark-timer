@@ -228,13 +228,13 @@ Update_disp(set_time)
 while True:
     value = eventq.get()
     if abs(value) >= 1000:
-
-        brightness = brightness - (value / 1000)
+        print(value)
+        brightness = brightness - (value // 1000)
         if brightness < 0:
             brightness = 0
         elif brightness > 15:
             brightness = 15
-        Brigh(brightness)
+        Brigh(int(brightness))
     else:
         if not Rele.is_lit:
 
