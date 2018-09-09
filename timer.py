@@ -38,6 +38,7 @@ timeOfStart = datetime.now() # bare for å sette type
 def PwrOff():
     diff = 0
     Single = True
+    End = True
     start_time = time()
     while Vensre.is_active and (diff < 10) :
         if Enc_B.is_pressed or Enc_A.is_pressed:
@@ -47,12 +48,14 @@ def PwrOff():
             diff=-start_time+now_time
 
     if diff < 10 and Single:
-        Face_disp()
-        while True:
+        while End:
+            Face_disp()
             if Ned.is_pressed:
                 Update_disp(set_time)
+                End = False
             elif Opp.is_pressed:
                 call("sudo nohup shutdown -h now", shell=True)
+                End = False
 
 
 def Enc_A_rising():
@@ -225,24 +228,6 @@ def Blink_Off():
     global segment
     segment.set_blink(0x00)
 
-def Slot_disp():
-    ## Continually update the time on a 4 char, 7-segment display
-    global segment
-    x = 9
-    y = 0.15
-    while x >= 0:
-        segment.clear()
-        segment.set_digit(0, x)     # Tens
-        segment.set_digit(1, x)       # Ones
-        segment.set_digit(2, x)   # Tens
-        segment.set_digit(3, x)    # Ones
-        segment.set_colon(False)
-        segment.write_display()
-
-        x = x - 1
-        y = y + 0.035
-        sleep(y)
-
 def Brigh(bright):
     segment.set_brightness(bright)
 
@@ -255,7 +240,6 @@ Vensre.when_pressed = PwrOff
 
 
 print "Klar..."
-Slot_disp()
 Update_disp(set_time)
 
 
